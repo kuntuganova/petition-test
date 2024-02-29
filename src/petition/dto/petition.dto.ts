@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IPetition } from '../interfaces';
-import { ObjectId } from 'mongoose';
+import { ObjectId, Types } from 'mongoose';
 
 export class PetitionDto implements IPetition {
   @ApiProperty()
@@ -16,5 +16,5 @@ export class PetitionDto implements IPetition {
   creationDate: Date;
 
   @ApiProperty()
-  vote: number;
+  vote: Types.ObjectId[];
 }

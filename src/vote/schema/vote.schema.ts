@@ -4,6 +4,8 @@ import { SchemaTypes, Types } from 'mongoose';
 
 @Schema()
 export class Vote implements IVote {
+  _id?: string;
+
   @Prop([{ type: SchemaTypes.ObjectId, ref: 'User' }])
   user: Types.ObjectId[];
 

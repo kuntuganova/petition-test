@@ -28,7 +28,9 @@ export class PetitionService {
   }
 
   async findById(id: string): Promise<Petition> {
-    const petition = await this.petitionModel.findById(id).exec();
+    const petition = await (
+      await this.petitionModel.findById(id)
+    ).populate('vote');
 
     if (!petition) {
       throw new NotFoundException('Petition not found');
@@ -46,17 +48,14 @@ export class PetitionService {
     id: string,
     editPetitionDto: EditPetitionDto,
   ): Promise<Petition> {
-    const updatedPetition = await this.petitionModel.findByIdAndUpdate(
-      id,
-      editPetitionDto,
-      { new: true },
-    );
+    const { name, description, vote } = editPetitionDto;
+    const petition = await this.findById(id);
 
-    if (!updatedPetition) {
-      throw new NotFoundException('Petition not found');
-    }
+    name ? (petition.name = name) : null;
+    description ? (petition.description = description) : null;
+    vote ? petition.vote.push(vote._id as any) : null;
 
-    return updatedPetition;
+    return await petition.save();
   }
 
   async delete(id: string): Promise<Petition> {

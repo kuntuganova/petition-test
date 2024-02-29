@@ -12,5 +12,6 @@ import { Petition, PetitionSchema } from './schema';
   ],
   providers: [PetitionService],
   controllers: [PetitionController],
+  exports: [PetitionService],
 })
 export class PetitionModule {}

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IPetition } from '../interfaces';
+import { SchemaTypes, Types } from 'mongoose';
 
 @Schema()
 export class Petition implements IPetition {
@@ -12,8 +13,10 @@ export class Petition implements IPetition {
   @Prop({ default: Date.now })
   creationDate: Date;
 
-  @Prop({ default: 0 })
-  vote: number;
+  @Prop([{ type: SchemaTypes.ObjectId, ref: 'Vote' }])
+  vote: Types.ObjectId[];
+
+  save?();
 }
 
 export const PetitionSchema = SchemaFactory.createForClass(Petition);
